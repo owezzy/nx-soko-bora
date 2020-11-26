@@ -25,7 +25,10 @@
               "apps/nx-soko-bora/src/favicon.ico",
               "apps/nx-soko-bora/src/assets"
             ],
-            "styles": ["apps/nx-soko-bora/src/styles.scss"],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "apps/nx-soko-bora/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -80,7 +83,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/nx-soko-bora/src/**/*.ts"]
+            "lintFilePatterns": [
+              "apps/nx-soko-bora/src/**/*.ts"
+            ]
           }
         },
         "test": {
@@ -113,7 +118,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/nx-soko-bora-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/nx-soko-bora-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
@@ -131,7 +138,9 @@
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": ["apps/api/src/assets"]
+            "assets": [
+              "apps/api/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -156,7 +165,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/api/**/*.ts"]
+            "lintFilePatterns": [
+              "apps/api/**/*.ts"
+            ]
           }
         },
         "test": {
@@ -177,7 +188,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/api-interfaces/**/*.ts"]
+            "lintFilePatterns": [
+              "libs/api-interfaces/**/*.ts"
+            ]
           }
         },
         "test": {

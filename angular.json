@@ -10,7 +10,7 @@
       },
       "root": "apps/nx-soko-bora",
       "sourceRoot": "apps/nx-soko-bora/src",
-      "prefix": "nx-lemon-mart",
+      "prefix": "nx-soko-bora",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

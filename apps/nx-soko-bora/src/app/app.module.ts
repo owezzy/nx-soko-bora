@@ -18,6 +18,7 @@ import { rootReducers, metaReducers } from './reducers';
 import { RouterEffects } from './reducers/router.effects';
 import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { MaterialModule } from '@nx-soko-bora/material';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, PageNotFoundComponent],
@@ -25,6 +26,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    MaterialModule,
     StoreModule.forRoot(rootReducers, {
       metaReducers,
       runtimeChecks: {

@@ -16,7 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nx-lemon-mart/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@nx-soko-bora/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@nx-soko-bora/material": ["libs/material/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

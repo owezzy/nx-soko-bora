@@ -1,9 +1,16 @@
-<div style="text-align: center">
-  <h1>Welcome to nx-soko-bora!</h1>
-  <img
-    width="450"
-    src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png"
-  />
-</div>
+<mat-toolbar color="primary">
+  <button mat-icon-button><mat-icon>menu</mat-icon></button>
+  <mat-icon svgIcon="soko-bora"></mat-icon>
+  <a mat-button routerLink="/home">
+    <h1>Soko-Bora</h1>
+  </a>
+  <span class="flex-spacer"></span>
+  <button mat-icon-button>
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <button mat-icon-button>
+    <mat-icon>lock_open</mat-icon>
+  </button>
+</mat-toolbar>
 <div>Message: {{ hello$ | async | json }}</div>
 <router-outlet></router-outlet>

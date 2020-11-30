@@ -5,8 +5,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SafeResourceUrl, SafeValue } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable, Subscription, of } from 'rxjs';
-import { MaterialModule } from '../../../../../libs/material/src';
+import { Observable, Subscription, of, throwError } from 'rxjs';
+import { MaterialModule } from '@nx-soko-bora/material';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../auth/auth.service';
 
 const FAKE_SVGS = {
   sokoBora: '<svg><path id="soko-bora" name="soko-bora"></path></svg>',
@@ -62,6 +64,7 @@ export class DomSanitizerFake {
   }
 }
 
+// @ts-ignore
 export const commonTestingProviders: any[] = [
   // { provide: AuthService, useValue: jest.fn(AuthService) },
   // { provide: UiService, useValue: jest.fn(UiService) },
@@ -74,3 +77,18 @@ export const commonTestingModules: any[] = [
   HttpClientTestingModule,
   RouterTestingModule,
 ];
+
+export function transformError(error: HttpErrorResponse | string) {
+  let errorMessage = 'An unknown error has occurred';
+  if (typeof error === 'string') {
+    errorMessage = error;
+  } else if (error.error instanceof ErrorEvent) {
+    errorMessage = `Error!
+${error.error.message}`;
+  } else if (error.status) {
+    errorMessage = `Request failed with ${error.status} ${error.statusText}`;
+  } else if (error instanceof Error) {
+    errorMessage = error.message;
+  }
+  return throwError(errorMessage);
+}

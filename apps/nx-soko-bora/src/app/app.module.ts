@@ -19,6 +19,8 @@ import { RouterEffects } from './reducers/router.effects';
 import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MaterialModule } from '@nx-soko-bora/material';
+import { AuthService } from './auth/auth.service';
+import { AuthInMemoryService } from './auth/auth-in-memory.service';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, PageNotFoundComponent],
@@ -50,7 +52,7 @@ import { MaterialModule } from '@nx-soko-bora/material';
     UserModule,
     AppRoutingModule,
   ],
-  providers: [Title],
+  providers: [Title, { provide: AuthService, useClass: AuthInMemoryService }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

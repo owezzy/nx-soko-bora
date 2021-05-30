@@ -34,11 +34,12 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      enableTracing: true,
-      initialNavigation: 'enabled',
-      paramsInheritanceStrategy: 'always',
-      onSameUrlNavigation: 'ignore',
-    }),
+    enableTracing: true,
+    initialNavigation: 'enabled',
+    paramsInheritanceStrategy: 'always',
+    onSameUrlNavigation: 'ignore',
+    relativeLinkResolution: 'legacy'
+}),
   ],
   exports: [RouterModule],
 })

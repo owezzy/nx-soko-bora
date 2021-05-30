@@ -101,12 +101,17 @@
   "husky": {
     "hooks": {
       "pre-commit": "ng lint --fix",
-      "prepare-commit-msg": "exec < /dev/tty && git cz"
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook"
     }
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
+    },
+    "lint-staged": {
+      "*.{js,json,md, ts}": [
+        "yarn format --uncommitted"
+      ]
     }
   }
 }

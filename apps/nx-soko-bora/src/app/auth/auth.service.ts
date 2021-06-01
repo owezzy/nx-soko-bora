@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Role } from './auth.enum';
 import { BehaviorSubject, Observable, pipe, throwError } from 'rxjs';
-import { IUser, User } from '../user/user';
+import { IUser, User } from '../user/models/user';
 import { catchError, filter, flatMap, map, tap } from 'rxjs/operators';
 import { transformError } from '../common/common.testing';
 import { decode } from 'punycode';

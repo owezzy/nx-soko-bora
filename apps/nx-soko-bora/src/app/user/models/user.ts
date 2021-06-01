@@ -1,4 +1,5 @@
-import { Role } from '../auth/auth.enum';
+import { Role } from '../../auth/auth.enum';
+
 
 export interface IUser {
   readonly fullName?: string;

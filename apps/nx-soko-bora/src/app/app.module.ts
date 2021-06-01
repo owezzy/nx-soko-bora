@@ -14,13 +14,15 @@ import { InventoryModule } from './inventory/inventory.module';
 import { PosModule } from './pos/pos.module';
 import { UserModule } from './user/user.module';
 import { HomeComponent } from './home/home.component';
-import { rootReducers, metaReducers } from './reducers';
-import { RouterEffects } from './reducers/router.effects';
+import { rootReducers, metaReducers } from '../Store/reducers';
+import { RouterEffects } from '../Store/reducers/router.effects';
 import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MaterialModule } from '@nx-soko-bora/material';
 import { AuthService } from './auth/auth.service';
 import { AuthInMemoryService } from './auth/auth-in-memory.service';
+import { CoreModule } from '../core/core.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, PageNotFoundComponent],
@@ -51,6 +53,8 @@ import { AuthInMemoryService } from './auth/auth-in-memory.service';
     PosModule,
     UserModule,
     AppRoutingModule,
+    CoreModule,
+    SharedModule,
   ],
   providers: [Title, { provide: AuthService, useClass: AuthInMemoryService }],
   bootstrap: [AppComponent],

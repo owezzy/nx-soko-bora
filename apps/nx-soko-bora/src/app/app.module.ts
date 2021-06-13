@@ -24,8 +24,10 @@ import { AuthInMemoryService } from './auth/auth-in-memory.service';
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 
+const COMPONENTS = [AppComponent, HomeComponent, PageNotFoundComponent];
+
 @NgModule({
-  declarations: [AppComponent, HomeComponent, PageNotFoundComponent],
+  declarations: [COMPONENTS],
   imports: [
     BrowserModule,
     HttpClientModule,

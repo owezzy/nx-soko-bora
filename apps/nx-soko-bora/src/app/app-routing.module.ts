@@ -2,6 +2,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NgModule } from '@angular/core';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LoginComponent } from './auth/login/login.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -9,6 +10,11 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     data: { title: 'Home' },
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    data: { title: 'Login' },
   },
   {
     path: 'manager',
@@ -34,12 +40,12 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-    enableTracing: true,
-    initialNavigation: 'enabled',
-    paramsInheritanceStrategy: 'always',
-    onSameUrlNavigation: 'ignore',
-    relativeLinkResolution: 'legacy'
-}),
+      enableTracing: true,
+      initialNavigation: 'enabled',
+      paramsInheritanceStrategy: 'always',
+      onSameUrlNavigation: 'ignore',
+      relativeLinkResolution: 'legacy',
+    }),
   ],
   exports: [RouterModule],
 })

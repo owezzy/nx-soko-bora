@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  async login(submittedForm: FormGroup) {
+  login(submittedForm: FormGroup) {
     this.authService
       .login(submittedForm.value.email, submittedForm.value.password)
       .subscribe(

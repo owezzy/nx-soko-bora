@@ -24,6 +24,9 @@ import { AuthInMemoryService } from './auth/auth-in-memory.service';
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 import { UiService } from './common/ui.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './auth/login/login.component';
+import { A } from '@angular/cdk/keycodes';
 
 const COMPONENTS = [AppComponent, HomeComponent, PageNotFoundComponent];
 
@@ -34,6 +37,8 @@ const COMPONENTS = [AppComponent, HomeComponent, PageNotFoundComponent];
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
     StoreModule.forRoot(rootReducers, {
       metaReducers,
       runtimeChecks: {
@@ -59,7 +64,7 @@ const COMPONENTS = [AppComponent, HomeComponent, PageNotFoundComponent];
     CoreModule,
     SharedModule,
   ],
-  providers: [Title, UiService, { provide: AuthService, useClass: AuthInMemoryService }],
+  providers: [Title, UiService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

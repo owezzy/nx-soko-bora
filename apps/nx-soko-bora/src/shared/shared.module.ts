@@ -5,13 +5,14 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { AuthModule } from '../app/auth/auth.module';
 import { MaterialModule } from '@nx-soko-bora/material';
 import { SimpleDialogComponent } from '../app/common/simple-dialog/simple-dialog.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [SimpleDialogComponent],
   imports: [
     MaterialModule,
     ReactiveFormsModule,
+    FormsModule,
     CommonModule,
     AuthModule,
     SharedRoutingModule,

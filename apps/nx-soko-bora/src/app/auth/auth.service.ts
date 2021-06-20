@@ -30,7 +30,9 @@ export interface IAuthService {
   logout(clearToken?: boolean): void;
   getToken(): string;
 }
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export abstract class AuthService extends CacheService implements IAuthService {
   authStatus = new BehaviorSubject<IAuthStatus>(
     this.getItem('authStatus') || defaultAuthStatus

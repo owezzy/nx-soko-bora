@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Role } from './auth.enum';
-import { BehaviorSubject, Observable, pipe, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, pipe, throwError } from 'rxjs';
 import { IUser, User } from '../user/models/user';
 import { catchError, filter, flatMap, map, tap } from 'rxjs/operators';
 import { transformError } from '../common/common.testing';
 import { decode } from 'punycode';
 import { CacheService } from './cache.service';
+import { sign } from 'fake-jwt-sign'; // For fakeAuthProvider only
 
 export interface IAuthStatus {
   isAuthenticated: boolean;
@@ -22,14 +23,18 @@ export const defaultAuthStatus: IAuthStatus = {
 };
 
 export interface IAuthService {
+  authStatus: BehaviorSubject<IAuthStatus>;
   readonly authStatus$: BehaviorSubject<IAuthStatus>;
   readonly currentUser$: BehaviorSubject<IUser>;
-  login(email: string, password: string): Observable<void>;
+  login(email: string, password: string): Observable<IAuthStatus>;
   logout(clearToken?: boolean): void;
   getToken(): string;
 }
 @Injectable()
 export abstract class AuthService extends CacheService implements IAuthService {
+  authStatus = new BehaviorSubject<IAuthStatus>(
+    this.getItem('authStatus') || defaultAuthStatus
+  );
   private getAndUpdateUserIfAuthenticated = pipe(
     filter((status: IAuthStatus) => status.isAuthenticated),
     flatMap(() => this.getCurrentUser()),
@@ -42,8 +47,41 @@ export abstract class AuthService extends CacheService implements IAuthService {
 
   protected constructor() {
     super();
+    this.authStatus.subscribe((authStatus) => this.setItem('authStatus', authStatus));
+    // Fake login function to simulate roles
+    this.authProvider = AuthService.fakeAuthProvider;
   }
 
+  private static fakeAuthProvider(
+    email: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    password: string
+  ): Observable<IServerAuthResponse> {
+    if (!email.toLowerCase().endsWith('@test.com')) {
+      return throwError('Failed to login! Email needs to end with @test.com.');
+    }
+
+    const authStatus = {
+      isAuthenticated: true,
+      userId: 'e4d1bc2ab25c',
+      userRole: email.toLowerCase().includes('cashier')
+        ? Role.Cashier
+        : email.toLowerCase().includes('clerk')
+        ? Role.Clerk
+        : email.toLowerCase().includes('manager')
+        ? Role.Manager
+        : Role.None,
+    } as IAuthStatus;
+
+    const authResponse = {
+      accessToken: sign(authStatus, 'secret', {
+        expiresIn: '1h',
+        algorithm: 'none',
+      }),
+    } as IServerAuthResponse;
+
+    return of(authResponse);
+  }
   protected abstract authProvider(
     email: string,
     password: string
@@ -51,34 +89,33 @@ export abstract class AuthService extends CacheService implements IAuthService {
   protected abstract transformJwtToken(token: unknown): IAuthStatus;
   protected abstract getCurrentUser(): Observable<User>;
 
-  login(email: string, password: string): Observable<void> {
-    this.clearToken();
+  login(email: string, password: string): Observable<IAuthStatus> {
+    this.logout();
 
-    const loginResponse$ = this.authProvider(email, password).pipe(
+    const loginResponse = this.authProvider(email, password).pipe(
       map((value) => {
         this.setToken(value.accessToken);
-        // const token = decode(value.accessToken);
-        // return this.transformJwtToken(token);
-        return this.getAuthStatusFromToken(); // Keeping the code DRY!
+        return decode(value.accessToken) as IAuthStatus;
       }),
-      tap((status) => this.authStatus$.next(status)),
-      // filter((status: IAuthStatus) => status.isAuthenticated),
-      // flatMap(() => this.getCurrentUser()),
-      // map((user) => this.currentUser$.next(user)),
-      // catchError(transformError)
-      this.getAndUpdateUserIfAuthenticated // Keeping the code DRY!
+      catchError(transformError)
     );
-    loginResponse$.subscribe({
-      error: (err) => {
+
+    loginResponse.subscribe(
+      (res) => {
+        this.authStatus.next(res);
+      },
+      (err) => {
         this.logout();
         return throwError(err);
-      },
-    });
-    return loginResponse$;
+      }
+    );
+
+    return loginResponse;
   }
 
-  logout(clearToken?: boolean): void {
-    setTimeout(() => this.authStatus$.next(defaultAuthStatus), 0);
+  logout(): void {
+    this.clearToken();
+    this.authStatus.next(defaultAuthStatus);
   }
 
   protected hasExpiredToken(): boolean {

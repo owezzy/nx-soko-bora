@@ -2,6 +2,7 @@ import { Action, ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/stor
 import { environment } from '../../environments/environment';
 import { InjectionToken } from '@angular/core';
 import * as fromRouter from '@ngrx/router-store';
+import { localStorageSync } from 'ngrx-store-localstorage';
 
 export interface State {
   router: fromRouter.RouterReducerState<never>;
@@ -16,6 +17,14 @@ export const rootReducers = new InjectionToken<ActionReducerMap<State, Action>>(
   }
 );
 
+// wrap localStorageSync in an exported function
+function localStorageSyncReducer(reducer: ActionReducer<State>): ActionReducer<State> {
+  return localStorageSync({
+    keys: [],
+    rehydrate: true,
+  })(reducer);
+}
+
 export function logger(reducer: ActionReducer<never>): ActionReducer<never> {
   return (state, action) => {
     const result = reducer(state, action);
@@ -29,4 +38,6 @@ export function logger(reducer: ActionReducer<never>): ActionReducer<never> {
   };
 }
 
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [logger] : [];
+export const metaReducers: MetaReducer<State>[] = !environment.production
+  ? [logger, localStorageSyncReducer]
+  : [localStorageSyncReducer];

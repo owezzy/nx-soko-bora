@@ -3,9 +3,18 @@ import { CommonModule } from '@angular/common';
 
 import { SharedRoutingModule } from './shared-routing.module';
 import { AuthModule } from '../app/auth/auth.module';
+import { MaterialModule } from '@nx-soko-bora/material';
+import { SimpleDialogComponent } from '../app/common/simple-dialog/simple-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule, AuthModule, SharedRoutingModule],
+  declarations: [SimpleDialogComponent],
+  imports: [
+    MaterialModule,
+    ReactiveFormsModule,
+    CommonModule,
+    AuthModule,
+    SharedRoutingModule,
+  ],
 })
 export class SharedModule {}

@@ -23,6 +23,7 @@ import { AuthService } from './auth/auth.service';
 import { AuthInMemoryService } from './auth/auth-in-memory.service';
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
+import { UiService } from './common/ui.service';
 
 const COMPONENTS = [AppComponent, HomeComponent, PageNotFoundComponent];
 
@@ -38,7 +39,7 @@ const COMPONENTS = [AppComponent, HomeComponent, PageNotFoundComponent];
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,
-        strictStateSerializability: true,
+        strictStateSerializability: false,
         strictActionSerializability: true,
         strictActionWithinNgZone: true,
       },
@@ -58,7 +59,7 @@ const COMPONENTS = [AppComponent, HomeComponent, PageNotFoundComponent];
     CoreModule,
     SharedModule,
   ],
-  providers: [Title, { provide: AuthService, useClass: AuthInMemoryService }],
+  providers: [Title, UiService, { provide: AuthService, useClass: AuthInMemoryService }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
